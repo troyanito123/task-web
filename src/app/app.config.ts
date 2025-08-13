@@ -13,6 +13,8 @@ import { UserService } from './authentication/domain/user.service';
 
 import { TaskFakeService } from './task/infraestructure/task-fake.service';
 import { TaskService } from './task/domain/task.service';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { userTokenInterceptor } from './shared/user-token.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -21,5 +23,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     { provide: UserService, useExisting: UserFakeService },
     { provide: TaskService, useExisting: TaskFakeService },
+    provideHttpClient(withInterceptors([userTokenInterceptor])),
   ],
 };
