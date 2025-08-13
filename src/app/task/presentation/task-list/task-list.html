@@ -1,1 +1,65 @@
-<p>task-list works!</p>
+<h2>Lista de Tareas</h2>
+<form [formGroup]="taskForm">
+  <mat-form-field>
+    <input matInput placeholder="Título" formControlName="title" required />
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Descripción" formControlName="description" />
+  </mat-form-field>
+
+  @if (taskToEdit$ | async; as taskToEdit) {
+  <button type="button" matButton="filled" (click)="updateTask(taskToEdit)">
+    Actualizar
+  </button>
+  <button type="button" matButton="tonal" (click)="cancelEdit()">
+    Cancelar
+  </button>
+  }@else {
+  <button type="button" matButton="filled" (click)="addTask()">
+    Agregar
+  </button>
+  }
+</form>
+
+<table mat-table [dataSource]="(taskList$ | async) ?? []">
+  <ng-container matColumnDef="completed">
+    <th mat-header-cell *matHeaderCellDef>Completada</th>
+    <td mat-cell *matCellDef="let task">
+      <mat-checkbox [checked]="task.completed" (change)="markCompleted(task, $event.checked)"></mat-checkbox>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="title">
+    <th mat-header-cell *matHeaderCellDef>Título</th>
+    <td mat-cell *matCellDef="let task">{{ task.title }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="description">
+    <th mat-header-cell *matHeaderCellDef>Descripción</th>
+    <td mat-cell *matCellDef="let task">{{ task.description }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef>Acciones</th>
+    <td mat-cell *matCellDef="let task">
+      <button matButton="tonal" (click)="deleteTask(task.id)" color="warn">
+        Eliminar
+      </button>
+      <button matButton="filled" (click)="editTask(task)" color="accent">
+        Editar
+      </button>
+    </td>
+  </ng-container>
+
+  <tr
+    mat-header-row
+    *matHeaderRowDef="['completed', 'title', 'description', 'actions']"
+  ></tr>
+  <tr
+    mat-row
+    *matRowDef="
+      let row;
+      columns: ['completed', 'title', 'description', 'actions']
+    "
+  ></tr>
+</table>

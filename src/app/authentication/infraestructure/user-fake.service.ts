@@ -35,6 +35,7 @@ export class UserFakeService extends UserService {
   ): Promise<{ token: string; user: UserModel } | null> {
     const user = USERS_DB.find((user) => user.email === email);
     if (!user) return null;
+    localStorage.setItem('token', 'fake-jwt-token');
     return { token: 'fake-jwt-token', user };
   }
   override async create(
@@ -48,6 +49,11 @@ export class UserFakeService extends UserService {
       new Date()
     );
     USERS_DB.push(newUser);
+    localStorage.setItem('token', 'fake-jwt-token');
     return { token: 'fake-jwt-token', user: newUser };
+  }
+
+  override async logout(): Promise<void> {
+    localStorage.clear();
   }
 }

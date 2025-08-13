@@ -1,8 +1,10 @@
+import { Observable } from 'rxjs';
 import { TaskModel } from './task.model';
 
-export interface TaskService {
-  getAll(): Promise<TaskModel[]>;
-  create(task: Pick<TaskModel, 'title' | 'description'>): Promise<TaskModel>;
-  update(id: string, task: Omit<TaskModel, 'id' | 'createdAt'>): Promise<TaskModel | null>;
-  delete(id: string): Promise<boolean>;
+export abstract class TaskService {
+  abstract getAll(): Promise<TaskModel[]>;
+  abstract create(task: Pick<TaskModel, 'title' | 'description'>): Promise<TaskModel>;
+  abstract update(id: string, task: Pick<TaskModel, 'title' | 'description' | 'completed'>): Promise<TaskModel | null>;
+  abstract delete(id: string): Promise<boolean>;
+  abstract list$: Observable<TaskModel[]>;
 }
