@@ -1,0 +1,16 @@
+<h2 mat-dialog-title>Registro</h2>
+<mat-dialog-content>
+  <p>
+    No encontramos tu correo en nuestro sistema, quieres crear un usuario con
+    este correo:
+  </p>
+  <p>
+    <strong>{{ data.email }}</strong>
+  </p>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button matButton="tonal" [mat-dialog-close]="null">No, gracias</button>
+  <button matButton="filled" [mat-dialog-close]="data.email">
+    Si, crear usuario
+  </button>
+</mat-dialog-actions>
