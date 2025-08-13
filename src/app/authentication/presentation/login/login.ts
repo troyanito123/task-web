@@ -69,7 +69,7 @@ export default class Login {
 
   private createLoginForm(): FormGroup {
     return this.formBuilder.group({
-      email: ['mail@mail.com', [Validators.required, Validators.email]],
+      email: ['user@example.com', [Validators.required, Validators.email]],
     });
   }
 }

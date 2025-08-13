@@ -9,6 +9,9 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TaskModel } from '../../domain/task.model';
 import { TaskService } from '../../domain/task.service';
 import { BehaviorSubject } from 'rxjs';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { UserService } from '../../../authentication/domain/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-task-list',
@@ -21,6 +24,7 @@ import { BehaviorSubject } from 'rxjs';
     MatIconModule,
     ReactiveFormsModule,
     MatTableModule,
+    MatToolbarModule,
   ],
   templateUrl: './task-list.html',
   styleUrl: './task-list.scss',
@@ -28,6 +32,8 @@ import { BehaviorSubject } from 'rxjs';
 })
 export default class TaskList {
   readonly taskService = inject(TaskService);
+  readonly userService = inject(UserService);
+  readonly router = inject(Router);
   readonly taskList$ = this.taskService.list$;
   readonly formBuilder = inject(FormBuilder);
   readonly taskForm = this.formBuilder.group({
@@ -89,5 +95,10 @@ export default class TaskList {
       description: task.description,
       completed,
     });
+  }
+
+  async logout(){
+    await this.userService.logout();
+    await this.router.navigate(['/login']);
   }
 }

@@ -1,8 +1,10 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
+import { UserService } from '../../authentication/domain/user.service';
 
-export const taskGuard: CanActivateFn = (route, state) => {
+export const taskGuard: CanActivateFn = async (route, state) => {
+  const userService = inject(UserService);
   const router = inject(Router);
-  const token = localStorage.getItem('token');
-  return token ? true : router.createUrlTree(['/login']); // o false, o un Observable/Promise<boolean>
+  const response = await userService.renew()
+  return response ? true : router.createUrlTree(['/login']);
 };

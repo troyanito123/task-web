@@ -35,8 +35,8 @@ export class UserFakeService extends UserService {
   ): Promise<{ token: string; user: UserModel } | null> {
     const user = USERS_DB.find((user) => user.email === email);
     if (!user) return null;
-    localStorage.setItem('token', 'fake-jwt-token');
-    return { token: 'fake-jwt-token', user };
+    localStorage.setItem('token', `fake-jwt-${user.email}`);
+    return { token: `fake-jwt-${user.email}`, user };
   }
   override async create(
     user: Pick<UserModel, 'email'>
@@ -49,11 +49,19 @@ export class UserFakeService extends UserService {
       new Date()
     );
     USERS_DB.push(newUser);
-    localStorage.setItem('token', 'fake-jwt-token');
-    return { token: 'fake-jwt-token', user: newUser };
+    localStorage.setItem('token', `fake-jwt-${newUser.email}`);
+    return { token: `fake-jwt-${newUser.email}`, user: newUser };
   }
 
   override async logout(): Promise<void> {
     localStorage.clear();
+  }
+
+  public async renew(): Promise<{ token: string; user: UserModel } | null> {
+    const token = localStorage.getItem('token');
+    const user = USERS_DB.find((user) => `fake-jwt-${user.email}` === token);
+    if (!user) return null;
+    localStorage.setItem('token', `fake-jwt-${user.email}`);
+    return { token: `fake-jwt-${user.email}`, user };
   }
 }

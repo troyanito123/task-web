@@ -1,4 +1,9 @@
-<h2>Lista de Tareas</h2>
+<mat-toolbar>
+  <span>Lista de tareas</span>
+  <button matIconButton (click)="logout()">
+    <mat-icon>logout</mat-icon>
+  </button>
+</mat-toolbar>
 <form [formGroup]="taskForm">
   <mat-form-field>
     <input matInput placeholder="Título" formControlName="title" required />
