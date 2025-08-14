@@ -1,5 +1,3 @@
-// ...existing imports...
-// ...existing code...
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
@@ -8,13 +6,14 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { TaskModel } from '../../domain/task.model';
 import { TaskService } from '../../domain/task.service';
 import { BehaviorSubject } from 'rxjs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { UserService } from '../../../authentication/domain/user.service';
 import { Router } from '@angular/router';
+import { TaskForm } from '../components/task-form/task-form';
 
 @Component({
   selector: 'app-task-list',
@@ -23,12 +22,12 @@ import { Router } from '@angular/router';
     CommonModule,
     MatButtonModule,
     MatCheckboxModule,
-    MatInputModule,
     MatIconModule,
     ReactiveFormsModule,
     MatTableModule,
     MatToolbarModule,
     MatCardModule,
+    TaskForm,
   ],
   templateUrl: './task-list.html',
   styleUrl: './task-list.scss',
@@ -39,11 +38,6 @@ export default class TaskList {
   readonly userService = inject(UserService);
   readonly router = inject(Router);
   readonly taskList$ = this.taskService.list$;
-  readonly formBuilder = inject(FormBuilder);
-  readonly taskForm = this.formBuilder.group({
-    title: ['', [Validators.required, Validators.minLength(3)]],
-    description: ['', [Validators.required, Validators.minLength(5)]],
-  });
 
   readonly taskToEdit$ = new BehaviorSubject<TaskModel | null>(null);
 
@@ -51,28 +45,39 @@ export default class TaskList {
     this.taskService.getAll();
   }
 
-  async addTask() {
-    if (this.taskForm.invalid) {
-      this.taskForm.markAllAsTouched();
-      return;
+  async handleTaskAction(event: {
+    action: 'edit' | 'add' | 'cancel';
+    data: Partial<TaskModel> | null;
+  }) {
+    switch (event.action) {
+      case 'edit':
+        this.updateTask(event.data!);
+        break;
+      case 'add':
+        this.addTask(event.data!);
+        break;
+      case 'cancel':
+        this.cancelEdit();
+        break;
     }
-    const { title, description } = this.taskForm.value;
-    await this.taskService.create({ title: title!, description: description! });
-    this.taskForm.reset();
   }
-  async updateTask(task: TaskModel) {
-    if (this.taskForm.invalid) {
-      this.taskForm.markAllAsTouched();
-      return;
-    }
-    const { title, description } = this.taskForm.value;
-    await this.taskService.update(task.id, {
-      title: title!,
-      description: description!,
-      completed: task.completed,
+
+  async addTask(data: Partial<TaskModel>) {
+    const { title, description } = data;
+    await this.taskService.create({ title: title!, description: description! });
+  }
+
+  async updateTask(task: Partial<TaskModel>) {
+    await this.taskService.update(task.id!, {
+      title: task.title!,
+      description: task.description!,
+      completed: task.completed!,
     });
     this.taskToEdit$.next(null);
-    this.taskForm.reset();
+  }
+
+  cancelEdit() {
+    this.taskToEdit$.next(null);
   }
 
   async deleteTask(id: string) {
@@ -80,16 +85,7 @@ export default class TaskList {
   }
 
   async editTask(task: TaskModel) {
-    this.taskForm.patchValue({
-      title: task.title,
-      description: task.description,
-    });
     this.taskToEdit$.next(task);
-  }
-
-  cancelEdit() {
-    this.taskForm.reset();
-    this.taskToEdit$.next(null);
   }
 
   markCompleted(task: TaskModel, completed: boolean) {

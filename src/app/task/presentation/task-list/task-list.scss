@@ -18,23 +18,11 @@
   flex: 1 1 auto;
 }
 
-.task-form-card,
 .task-table-card {
   width: 100%;
   max-width: 900px;
   margin-bottom: 24px;
   padding: 16px;
-}
-
-.full-width {
-  width: 100%;
-}
-
-.button-container {
-  display: flex;
-  gap: 12px;
-  justify-content: flex-end;
-  margin-top: 16px;
 }
 
 .mat-table {
