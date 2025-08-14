@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TaskModel } from '../../domain/task.model';
 import { TaskService } from '../../domain/task.service';
@@ -25,6 +26,7 @@ import { Router } from '@angular/router';
     ReactiveFormsModule,
     MatTableModule,
     MatToolbarModule,
+    MatCardModule,
   ],
   templateUrl: './task-list.html',
   styleUrl: './task-list.scss',
