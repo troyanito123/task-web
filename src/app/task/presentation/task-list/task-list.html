@@ -2,7 +2,7 @@
   <mat-toolbar color="primary" class="toolbar">
     <span>Lista de tareas</span>
     <span class="spacer"></span>
-    <button mat-icon-button (click)="logout()">
+    <button matIconButton (click)="logout()">
       <mat-icon>logout</mat-icon>
     </button>
   </mat-toolbar>
@@ -55,16 +55,14 @@
         <ng-container *ngIf="taskToEdit$ | async as taskToEdit; else addButton">
           <button
             type="button"
-            mat-flat-button
-            color="accent"
+            matButton="filled"
             (click)="updateTask(taskToEdit)"
           >
             Actualizar
           </button>
           <button
             type="button"
-            mat-stroked-button
-            color="primary"
+            matButton="tonal"
             (click)="cancelEdit()"
           >
             Cancelar
@@ -73,8 +71,7 @@
         <ng-template #addButton>
           <button
             type="button"
-            mat-flat-button
-            color="primary"
+            matButton="filled"
             (click)="addTask()"
           >
             Agregar
@@ -88,7 +85,6 @@
     <table
       mat-table
       [dataSource]="(taskList$ | async) ?? []"
-      class="mat-elevation-z2"
     >
       <ng-container matColumnDef="completed">
         <th mat-header-cell *matHeaderCellDef>Completada</th>
@@ -115,25 +111,23 @@
         <td mat-cell *matCellDef="let task">
           <ng-container *ngIf="isMobileScreen(); else desktopActions">
             <button
-              mat-icon-button
+              matIconButton
               (click)="deleteTask(task.id)"
-              aria-label="Eliminar"
             >
               <mat-icon>delete</mat-icon>
             </button>
             <button
-              mat-icon-button
+              matIconButton
               (click)="editTask(task)"
-              aria-label="Editar"
             >
               <mat-icon>edit</mat-icon>
             </button>
           </ng-container>
           <ng-template #desktopActions>
-            <button mat-stroked-button (click)="deleteTask(task.id)">
+            <button matButton="outlined" (click)="deleteTask(task.id)">
               Eliminar
             </button>
-            <button mat-flat-button (click)="editTask(task)">Editar</button>
+            <button matButton="filled" color="tertiary" (click)="editTask(task)">Editar</button>
           </ng-template>
         </td>
       </ng-container>
