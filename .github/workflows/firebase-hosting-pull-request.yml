@@ -21,7 +21,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y google-chrome-stable
-      - run: ng test --configuration=ci --browsers=ChromeHeadlessNoSandbox --watch=false --no-progress
+      - run: ng test --browsers=ChromeHeadlessNoSandbox --watch=false --no-progress
       - run: ng build --configuration production
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
