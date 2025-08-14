@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -14,20 +14,18 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { UserService } from '../../../authentication/domain/user.service';
 import { Router } from '@angular/router';
 import { TaskForm } from '../components/task-form/task-form';
+import { TaskTable } from '../components/task-table/task-table';
 
 @Component({
   selector: 'app-task-list',
   standalone: true,
   imports: [
-    CommonModule,
     MatButtonModule,
-    MatCheckboxModule,
     MatIconModule,
-    ReactiveFormsModule,
-    MatTableModule,
     MatToolbarModule,
-    MatCardModule,
+    AsyncPipe,
     TaskForm,
+    TaskTable,
   ],
   templateUrl: './task-list.html',
   styleUrl: './task-list.scss',
@@ -58,6 +56,20 @@ export default class TaskList {
         break;
       case 'cancel':
         this.cancelEdit();
+        break;
+    }
+  }
+
+  handleTableAction(event: { action: 'edit' | 'delete' | 'check'; data: any }) {
+    switch (event.action) {
+      case 'edit':
+        this.editTask(event.data);
+        break;
+      case 'delete':
+        this.deleteTask(event.data);
+        break;
+      case 'check':
+        this.markCompleted(event.data.task, event.data.completed);
         break;
     }
   }
@@ -98,6 +110,7 @@ export default class TaskList {
 
   async logout() {
     await this.userService.logout();
+    this.taskService.clean();
     await this.router.navigate(['/login']);
   }
 

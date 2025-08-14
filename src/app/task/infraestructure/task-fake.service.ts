@@ -57,4 +57,9 @@ export class TaskFakeService extends TaskService {
     this.#list$.next(TASKS_DB);
     return exists;
   }
+
+  override clean(): void {
+    TASKS_DB = [];
+    this.#list$.next(TASKS_DB);
+  }
 }

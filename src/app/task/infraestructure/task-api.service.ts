@@ -73,4 +73,8 @@ export class TaskApiSerivce extends TaskService {
       )
     );
   }
+
+  override clean(): void {
+    this.#list$.next([]);
+  }
 }

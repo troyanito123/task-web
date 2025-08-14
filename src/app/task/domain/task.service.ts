@@ -12,4 +12,5 @@ export abstract class TaskService {
   ): Promise<TaskModel | null>;
   abstract delete(id: string): Promise<boolean>;
   abstract list$: Observable<TaskModel[]>;
+  abstract clean(): void;
 }
