@@ -1,3 +1,5 @@
+// ...existing imports...
+// ...existing code...
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
@@ -101,5 +103,9 @@ export default class TaskList {
   async logout() {
     await this.userService.logout();
     await this.router.navigate(['/login']);
+  }
+
+  isMobileScreen(): boolean {
+    return window.innerWidth <= 600;
   }
 }
