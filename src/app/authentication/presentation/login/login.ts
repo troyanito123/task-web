@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatInputModule } from '@angular/material/input';
+import { MatCardModule } from '@angular/material/card';
 import { Router, RouterModule } from '@angular/router';
 import { RegisterDialog } from '../components/register-dialog/register-dialog';
 import { UserService } from '../../domain/user.service';
@@ -20,6 +21,7 @@ import { UserService } from '../../domain/user.service';
     MatInputModule,
     MatGridListModule,
     MatButtonModule,
+    MatCardModule,
     RouterModule,
   ],
   templateUrl: './login.html',
