@@ -1,12 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { AsyncPipe, CommonModule } from '@angular/common';
-import { MatTableModule } from '@angular/material/table';
+import { AsyncPipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
-import { MatCardModule } from '@angular/material/card';
-import { ReactiveFormsModule } from '@angular/forms';
 import { TaskModel } from '../../domain/task.model';
 import { TaskService } from '../../domain/task.service';
 import { BehaviorSubject } from 'rxjs';
