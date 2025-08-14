@@ -8,12 +8,16 @@ export class TaskModel {
   ) {}
 
   static fromJson(json: Record<string, any>): TaskModel {
+    const createdAt =
+      typeof json['createdAt']?.toDate === 'function'
+        ? json['createdAt'].toDate()
+        : new Date(json['createdAt']);
     return new TaskModel(
       json['id'],
       json['title'],
       json['description'],
       json['completed'],
-      new Date(json['createdAt'])
+      createdAt
     );
   }
 }

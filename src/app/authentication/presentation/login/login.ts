@@ -12,7 +12,6 @@ import { MatInputModule } from '@angular/material/input';
 import { Router, RouterModule } from '@angular/router';
 import { RegisterDialog } from '../components/register-dialog/register-dialog';
 import { UserService } from '../../domain/user.service';
-import { UserFakeService } from '../../infraestructure/user-fake.service';
 
 @Component({
   selector: 'app-login',
@@ -31,7 +30,7 @@ export default class Login {
   readonly formBuilder = inject(FormBuilder);
   readonly dialog = inject(MatDialog);
   readonly router = inject(Router);
-  readonly userService = inject(UserFakeService);
+  readonly userService = inject(UserService);
   readonly loginForm = this.createLoginForm();
 
   public async onSubmit() {
@@ -69,7 +68,7 @@ export default class Login {
 
   private createLoginForm(): FormGroup {
     return this.formBuilder.group({
-      email: ['user@example.com', [Validators.required, Validators.email]],
+      email: ['', [Validators.required, Validators.email]],
     });
   }
 }

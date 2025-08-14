@@ -89,7 +89,6 @@ export default class TaskList {
   }
 
   markCompleted(task: TaskModel, completed: boolean) {
-    console.log({ task, completed });
     this.taskService.update(task.id, {
       title: task.title,
       description: task.description,
@@ -97,7 +96,7 @@ export default class TaskList {
     });
   }
 
-  async logout(){
+  async logout() {
     await this.userService.logout();
     await this.router.navigate(['/login']);
   }

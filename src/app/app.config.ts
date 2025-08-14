@@ -8,21 +8,21 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 
-import { UserFakeService } from './authentication/infraestructure/user-fake.service';
 import { UserService } from './authentication/domain/user.service';
 
-import { TaskFakeService } from './task/infraestructure/task-fake.service';
 import { TaskService } from './task/domain/task.service';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { userTokenInterceptor } from './shared/user-token.interceptor';
+import { UserApiService } from './authentication/infraestructure/user-api.service';
+import { TaskApiSerivce } from './task/infraestructure/task-api.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
     provideRouter(routes),
-    { provide: UserService, useExisting: UserFakeService },
-    { provide: TaskService, useExisting: TaskFakeService },
+    { provide: UserService, useExisting: UserApiService },
+    { provide: TaskService, useExisting: TaskApiSerivce },
     provideHttpClient(withInterceptors([userTokenInterceptor])),
   ],
 };
